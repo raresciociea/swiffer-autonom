@@ -5,7 +5,6 @@
 
 extern SoftwareSerial BTSerial;
 
-// --- DEFINIRE PINI ---
 const int trigFata = 2;
 const int echoFata = 3;
 const int trigStanga = A2;
@@ -26,7 +25,6 @@ const int intervalTrimitere = 1000;
 
 int getDistanta(int trig, int echo);
 
-// --- VARIABILE DE STARE ȘI VITEZĂ ---
 int stareRobot = 0;
 unsigned long timpInceputManevra = 0;
 const int timpInapoi = 400;
