@@ -182,20 +182,23 @@ void loop() {
         ultimaTrimitereBT = millis();
     }
 
-    String mesajTlf = citesteDePeTelefon();
-    mesajTlf.trim();
-    if (mesajTlf.length() > 0) {
-        if (mesajTlf == "ping") trimiteMesaj("PONG!");
-        if (mesajTlf == "start") {
-            pornireInForta();
-            stareRobot = 1;
-            BTSerial.println("Incep modul de acoperire avansata!");
-            Serial.println("Robot PORNIT!");
-        } else if (mesajTlf == "stop") {
-            stareRobot = 0;
-            opresteMotoare();
-            BTSerial.println("Sistem Oprit.");
-            Serial.println("Robot OPRIT!");
+    String comanda = citesteDePeTelefon();
+    if (BTSerial.available() > 0) {
+        String comanda = BTSerial.readStringUntil('\n');
+        comanda.toLowerCase();
+
+        if (comanda.length() > 0) {
+            if (comanda.indexOf("ping") != -1) {
+                BTSerial.println("PONG!");
+            } else if (comanda.indexOf("start") != -1) {
+                pornireInForta();
+                stareRobot = 1;
+                BTSerial.println("Incep modul de acoperire avansata!");
+            } else if (comanda.indexOf("stop") != -1) {
+                stareRobot = 0;
+                opresteMotoare();
+                BTSerial.println("Sistem Oprit.");
+            }
         }
     }
 
@@ -270,7 +273,7 @@ int getDistanta(int trig, int echo) {
     delayMicroseconds(10);
     digitalWrite(trig, LOW);
 
-    long durata = pulseIn(echo, HIGH, 3500);
+    long durata = pulseIn(echo, HIGH, 25000);
 
     if (durata == 0) return 400;
 
